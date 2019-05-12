@@ -133,7 +133,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
 | | setInterval()  |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
-| | Client : const s = dgram.createSocket('udp4'); s.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.PROTOCOL_MULTICAST_ADDRESS, function(err, bytes) {}); <br />Server : s.bind(protocol.PROTOCOL_PORT, function() {s.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);}); s.on('message', function(msg, source) {const parsedMsg = JSON.parse(msg);}); |
+| | Client : const s = dgram.createSocket('udp4'); <br />s.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.PROTOCOL_MULTICAST_ADDRESS, function(err, bytes) {}); <br />Server : const s = dgram.createSocket('udp4'); <br />s.bind(protocol.PROTOCOL_PORT, function() {s.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);}); s.on('message', function(msg, source) {const parsedMsg = JSON.parse(msg);}); |
 |Question | In Node.js, how can we **access the command line arguments**? |
 | | const instrument = process.argv[2];  |
 
