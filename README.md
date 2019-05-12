@@ -113,8 +113,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | What **payload** should we put in the UDP datagrams? |
 | | The uuid, the instrument and the last time the musician was playing |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
-| | Sender :  Uuid, sound of the instrument and the actual time. Updated when he is playing <br />
-Receiver :  List of musicians with their uuid, instrument and the last time they played. Updated when a musician is playing or stopped playing for 5 seconds |
+| | Sender :  Uuid, sound of the instrument and the actual time. Updated when he is playing <br />Receiver :  List of musicians with their uuid, instrument and the last time they played. Updated when a musician is playing or stopped playing for 5 seconds |
 
 
 ## Task 2: implement a "musician" Node.js application
