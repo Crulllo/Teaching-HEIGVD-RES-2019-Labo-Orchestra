@@ -131,7 +131,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
 | | 1. Generate 16 random bytes (=128 bits) <br />2. Adjust certain bits according to RFC 4122 section 4.4 as follows: <br />a. set the four most significant bits of the 7th byte to 0100'B, so the high nibble is "4" <br />b. set the two most significant bits of the 9th byte to 10'B, so the high nibble will be one of "8", "9", "A", or "B". <br />3. Encode the adjusted bytes as 32 hexadecimal digits <br />4. Add four hyphen "-" characters to obtain blocks of 8, 4, 4, 4 and 12 hex digits <br />5. Output the resulting 36-character string "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | setInterval()  |
+| | setInterval(this.update.bind(this), 1000); |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
 | | Client : const s = dgram.createSocket('udp4'); <br />s.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.PROTOCOL_MULTICAST_ADDRESS, function(err, bytes) {}); <br />Server : const s = dgram.createSocket('udp4'); <br />s.bind(protocol.PROTOCOL_PORT, function() {s.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);}); s.on('message', function(msg, source) {const parsedMsg = JSON.parse(msg);}); |
 |Question | In Node.js, how can we **access the command line arguments**? |
