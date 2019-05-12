@@ -107,13 +107,14 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we represent the system in an **architecture diagram**, which gives information both about the Docker containers, the communication protocols and the commands? |
 | | *Insert your diagram here...* |
 |Question | Who is going to **send UDP datagrams** and **when**? |
-| | *Enter your response here...* |
+| | The musicians when they're playing |
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
-| | *Enter your response here...* |
+| | The auditor, the datagram will be displayed with the source port |
 |Question | What **payload** should we put in the UDP datagrams? |
-| | *Enter your response here...* |
+| | The uuid, the instrument and the last time the musician was playing |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
-| | *Enter your response here...* |
+| | Sender :  Uuid, sound of the instrument and the actual time. Updated when he is playing |
+| | Receiver :  List of musicians with their uuid, instrument and the last time they played. Updated when a musician is playing or stopped playing for 5 seconds |
 
 
 ## Task 2: implement a "musician" Node.js application
@@ -121,21 +122,28 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
-| | *Enter your response here...*  |
+| | const payload = JSON.stringify(measure);  |
 |Question | What is **npm**?  |
-| | *Enter your response here...*  |
+| | npm is the world's largest Software Registry. It contains over 800,000 code packages  |
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
-| | *Enter your response here...*  |
+| | As of npm 5.0.0, installed modules are added as a dependency by default, so the --save option is no longer needed  |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
-| | *Enter your response here...*  |
+| | We can share and consume open source JavaScript in the npm registry  |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
-| | *Enter your response here...*  |
+| | 1. Generate 16 random bytes (=128 bits)
+2. Adjust certain bits according to RFC 4122 section 4.4 as follows:
+a. set the four most significant bits of the 7th byte to 0100'B, so the high nibble is "4"
+b. set the two most significant bits of the 9th byte to 10'B, so the high nibble will be one of "8", "9", "A", or "B" (see Note 1).
+3. Encode the adjusted bytes as 32 hexadecimal digits
+4. Add four hyphen "-" characters to obtain blocks of 8, 4, 4, 4 and 12 hex digits
+5. Output the resulting 36-character string "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | *Enter your response here...*  |
+| | setInterval()  |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
-| | *Enter your response here...*  |
+| | Client : const s = dgram.createSocket('udp4'); s.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.PROTOCOL_MULTICAST_ADDRESS, function(err, bytes) {});
+Server : s.bind(protocol.PROTOCOL_PORT, function() {s.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);}); s.on('message', function(msg, source) {const parsedMsg = JSON.parse(msg);}); |
 |Question | In Node.js, how can we **access the command line arguments**? |
-| | *Enter your response here...*  |
+| | const instrument = process.argv[2];  |
 
 
 ## Task 3: package the "musician" app in a Docker image
@@ -177,7 +185,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | *Enter your response here...* |
+| | By using the script validate.sh which builds the images and create the containers |
 
 
 ## Constraints

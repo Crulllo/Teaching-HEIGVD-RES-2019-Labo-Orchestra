@@ -17,16 +17,23 @@ s.bind(protocol.PROTOCOL_PORT, function() {
   s.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);
 });
 
-
 s.on('message', function(msg, source) {
 	
 	console.log("Data has arrived : " + msg + ". Source port : " + source.port);
-    var parsedMsg = JSON.parse(msg);
+    const parsedMsg = JSON.parse(msg);
 	
-	var uuid = parsedMsg.uuid;
-	var instrument = SOUNDS.get(parsedMsg.sound);
-	var activeSince = parsedMsg.activeSince;
+	const uuid = parsedMsg.uuid;
+	const instrument = SOUNDS.get(parsedMsg.sound);
+	const activeSince = parsedMsg.activeSince;
 
+	for (var i = 0; i < musicians.length; i++) {
+		if (musicians[i].uuid == uuid) {
+			musicians[i].instrument = instrument;
+			musicians[i].activeSince = activeSince;
+			return;
+		}
+	}
+	
 	musicians.push({
 		uuid: uuid,
 		instrument: instrument,
@@ -36,19 +43,18 @@ s.on('message', function(msg, source) {
 });
 
 const server = net.createServer(function(socket) {
-    var activeMusicians = [];
+    const activeMusicians = [];
     for (var i = 0; i < musicians.length; i++) {
 
-        var lastTimeActive = new Date(musicians[i].activeSince);
-        if (Date.now().getTime() - lastTimeActive.getTime() <= MAX_DELAY) {
+        if (Date.now() - musicians[i].activeSince <= MAX_DELAY) {
             activeMusicians.push({
                 uuid: musicians[i].uuid,
                 instrument: musicians[i].instrument,
-                activeSince: lastTimeActive.toISOString(),
+                activeSince: new Date(musicians[i].activeSince),
             });
         }
     }
-    var payload = JSON.stringify(activeMusicians);
+    const payload = JSON.stringify(activeMusicians);
 
     socket.write(payload);
     socket.pipe(socket);
